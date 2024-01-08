@@ -12,7 +12,7 @@ import { Db } from 'mongodb';
 let db: Db | null = null;
 
 async function connectToDatabase() {
-  const client = new MongoClient(process.env.DB_URL);
+  const client = new MongoClient(process.env.DB_URL as string);
   try {
     await client.connect();
     console.log('Connected to MongoDB');
