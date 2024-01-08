@@ -33,7 +33,6 @@ function connectToDatabase() {
         }
     });
 }
-connectToDatabase();
 app.get('/', (_req, res) => {
     return res.send('Express TypeScript on Vercel');
 });
@@ -42,15 +41,27 @@ app.get('/ping', (_req, res) => {
 });
 app.get('/user', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const users = yield db.collection('users').find().toArray();
-        return res.json(users);
+        if (db) {
+            const users = yield db.collection('users').find().toArray();
+            return res.json(users);
+        }
+        else {
+            throw new Error('Database connection is not established');
+        }
     }
     catch (error) {
         console.error('Error fetching users:', error);
         return res.status(500).send('Internal Server Error');
     }
 }));
-app.listen(port, () => {
-    console.log(`Server is listening on ${port}`);
-});
+app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield connectToDatabase();
+        console.log(`Server is listening on ${port}`);
+    }
+    catch (error) {
+        console.error('Error connecting to database:', error);
+        process.exit(1);
+    }
+}));
 //# sourceMappingURL=index.js.map

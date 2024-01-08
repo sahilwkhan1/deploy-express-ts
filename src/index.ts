@@ -23,9 +23,6 @@ async function connectToDatabase() {
   }
 }
 
-
-connectToDatabase();
-
 app.get('/', (_req: Request, res: Response) => {
   return res.send('Express TypeScript on Vercel');
 });
@@ -36,14 +33,24 @@ app.get('/ping', (_req: Request, res: Response) => {
 
 app.get('/user', async (_req: Request, res: Response) => {
   try {
-    const users = await db.collection('users').find().toArray();
-    return res.json(users);
+    if (db) {
+      const users = await db.collection('users').find().toArray();
+      return res.json(users);
+    } else {
+      throw new Error('Database connection is not established');
+    }
   } catch (error) {
     console.error('Error fetching users:', error);
     return res.status(500).send('Internal Server Error');
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is listening on ${port}`);
+app.listen(port, async () => {
+  try {
+    await connectToDatabase();
+    console.log(`Server is listening on ${port}`);
+  } catch (error) {
+    console.error('Error connecting to database:', error);
+    process.exit(1);
+  }
 });
