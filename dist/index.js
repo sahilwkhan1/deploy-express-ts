@@ -16,12 +16,10 @@ const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8080;
-// MongoDB connection URI
-const DB_URL = 'mongodb+srv://sahil2:Aa123456@cluster0.rfxzntu.mongodb.net/';
 let db = null;
 function connectToDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
-        const client = new mongodb_1.MongoClient(DB_URL);
+        const client = new mongodb_1.MongoClient(process.env.DB_URL);
         try {
             yield client.connect();
             console.log('Connected to MongoDB');
