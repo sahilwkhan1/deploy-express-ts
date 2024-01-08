@@ -22,7 +22,7 @@ let db = null;
 function connectToDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log(process.env.DB_URL);
-        const client = new mongodb_1.MongoClient(process.env.DB_URL);
+        const client = new mongodb_1.MongoClient(process.env.MONGO_DB_URL);
         try {
             yield client.connect();
             console.log('Connected to MongoDB');

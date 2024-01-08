@@ -14,7 +14,7 @@ let db: Db | null = null;
 
 async function connectToDatabase() {
   console.log(process.env.DB_URL);
-  const client = new MongoClient(process.env.DB_URL);
+  const client = new MongoClient(process.env.MONGO_DB_URL);
   try {
     await client.connect();
     console.log('Connected to MongoDB');
