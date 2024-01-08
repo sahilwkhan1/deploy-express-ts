@@ -14,11 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8080;
 let db = null;
 function connectToDatabase() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(process.env.DB_URL);
         const client = new mongodb_1.MongoClient(process.env.DB_URL);
         try {
             yield client.connect();

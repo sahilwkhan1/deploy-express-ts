@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { MongoClient } from 'mongodb';
-
+import { config } from 'dotenv';
+config();
 const app = express();
 const port = process.env.PORT || 8080;
 
@@ -12,7 +13,8 @@ import { Db } from 'mongodb';
 let db: Db | null = null;
 
 async function connectToDatabase() {
-  const client = new MongoClient(process.env.DB_URL as string);
+  console.log(process.env.DB_URL);
+  const client = new MongoClient(process.env.DB_URL);
   try {
     await client.connect();
     console.log('Connected to MongoDB');
